@@ -5,7 +5,7 @@ import { Button, ProgressBar, RadioGroup, Radio, Timer } from '../components/alh
 import getConfig from 'next/config'
 import axios from 'axios'
 import { FaInfoCircle } from 'react-icons/lib/fa'
-import { populateData, restoreData, getProgress, clearItems, setItem } from '../lib/localStorageStore'
+import { populateData, restoreData, getProgress, clearItems, getItem, setItem } from '../lib/localStorageStore'
 const { publicRuntimeConfig } = getConfig()
 const httpInstance = axios.create({
   baseURL: publicRuntimeConfig.URL,
@@ -90,6 +90,7 @@ export default class extends Component {
     window.scrollTo(0, 0)
     const { items, finished, position } = getItems(this.state.position, this.state.itemsPerPage, this.state.inventory).next()
     if (finished) {
+      const fullName = getItem('fullName')
       clearItems()
       const answers = this.state.answers
       const choices = Object.keys(answers).reduce((prev, current) => {
@@ -104,7 +105,8 @@ export default class extends Component {
       const result = {
         ...getInfo(),
         lang: this.state.lang,
-        answers: choices
+        answers: choices,
+        fullname: fullName
       }
       try {
         const { data } = await httpInstance.post('/api/save', result)

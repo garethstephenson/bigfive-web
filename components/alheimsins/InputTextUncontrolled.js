@@ -1,6 +1,7 @@
 export default function InputText (props) {
   const propTypes = {
     name: props.name,
+    id: props.name,
     type: props.type || 'text',
     min: props.min,
     max: props.max,
