@@ -106,7 +106,8 @@ export default class extends Component {
         ...getInfo(),
         lang: this.state.lang,
         answers: choices,
-        fullname: fullName
+        fullName: fullName,
+        testDate: new Date()
       }
       try {
         const { data } = await httpInstance.post('/api/save', result)
